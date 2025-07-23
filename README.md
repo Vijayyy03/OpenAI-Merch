@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI Merch Maker Lite
 
 ## Overview
@@ -89,3 +90,6 @@ Ecom/
 ---
 
 **Enjoy automating your AI-powered merch pipeline!** 
+=======
+# MerchMaker
+>>>>>>> dc9432f3ecaa7e9bad9c3cef62b058ddc2ddbeb8
