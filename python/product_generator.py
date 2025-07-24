@@ -7,20 +7,6 @@ import shutil
 # Load environment variables from .env file in the same directory
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 
-# --- MOCKING FOR TESTING WITHOUT API KEY ---
-if os.getenv("MOCK_OPENAI", "0") == "1":
-    from unittest.mock import MagicMock
-    # Mock chat completion
-    openai.chat = MagicMock()
-    openai.chat.completions.create = MagicMock(return_value=type("obj", (object,), {
-        "choices": [type("obj", (object,), {"message": type("obj", (object,), {"content": '{"title": "Test Shirt", "description": "A test shirt", "tags": ["test", "shirt"]}'})})]
-    })())
-    # Mock image generation
-    openai.images = MagicMock()
-    openai.images.generate = MagicMock(return_value=type("obj", (object,), {
-        "data": [type("obj", (object,), {"url": "https://example.com/fake-image.png"})]
-    })())
-
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 openai.api_key = OPENAI_API_KEY
 
@@ -41,10 +27,6 @@ def generate_product_content():
 
 # --- Product Image Generation ---
 def generate_product_image(prompt, output_path="generated_image.png"):
-    if os.getenv("MOCK_OPENAI", "0") == "1":
-        # In mock mode, copy dummy.png as the generated image
-        shutil.copyfile(os.path.join(os.path.dirname(__file__), "dummy.png"), output_path)
-        return output_path
     dalle_response = openai.images.generate(
         model="dall-e-3",
         prompt=prompt,
@@ -57,6 +39,13 @@ def generate_product_image(prompt, output_path="generated_image.png"):
         handler.write(img_data)
     return output_path
 
+def extract_keywords(description):
+    # Simple keyword extraction: split, lowercase, remove stopwords, deduplicate
+    stopwords = set(['the', 'a', 'an', 'and', 'or', 'for', 'of', 'to', 'in', 'on', 'with', 'is', 'this', 'that', 'it', 'as', 'at', 'by', 'from'])
+    words = [w.strip('.,!?').lower() for w in description.split()]
+    keywords = [w for w in words if w not in stopwords and len(w) > 2]
+    return list(sorted(set(keywords)))
+
 if __name__ == "__main__":
     print("Generating product content...")
     product_json = generate_product_content()
@@ -66,12 +55,17 @@ if __name__ == "__main__":
     try:
         product = json.loads(product_json)
         image_prompt = f"A high-quality product image for: {product['title']}"
+        # Bonus: extract keywords from description
+        if 'description' in product:
+            product['keywords'] = extract_keywords(product['description'])
+        # Save updated product JSON with keywords
+        with open("product.json", "w") as f:
+            f.write(json.dumps(product, indent=2))
     except Exception:
         image_prompt = "A creative t-shirt design"
+        with open("product.json", "w") as f:
+            f.write(product_json)
     print("Generating product image...")
     image_path = generate_product_image(image_prompt)
     print(f"Image saved to {image_path}")
-    # Save product JSON
-    with open("product.json", "w") as f:
-        f.write(product_json)
     print("Product data and image generated.") 

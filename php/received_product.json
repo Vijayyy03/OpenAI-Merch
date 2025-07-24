@@ -5,6 +5,10 @@
         "test",
         "shirt"
     ],
+    "keywords": [
+        "shirt",
+        "test"
+    ],
     "mockup": {
         "mockup_url": "D:\\Ecom\\js\\mockup.png",
         "width": 2500,
