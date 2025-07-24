@@ -1,8 +1,7 @@
-<<<<<<< HEAD
-# AI Merch Maker Lite
+# OpenAI-Merch
 
 ## Overview
-AI Merch Maker Lite is an automated backend pipeline that generates and publishes AI-created product listings using multiple APIs and programming languages. The pipeline simulates a mini eCommerce product automation system, generating product ideas, images, mockups, and publishing them via a fake API endpoint.
+OpenAI-Merch is an automated backend pipeline that generates and publishes AI-created product listings using multiple APIs and programming languages. The pipeline simulates a mini eCommerce product automation system, generating product ideas, images, mockups, and publishing them via a fake API endpoint.
 
 **Languages Used:**
 - Python (AI, automation)
@@ -20,7 +19,7 @@ Ecom/
 ├── js/
 │   ├── mockup_visualizer.js
 │   ├── package.json
-│   ├── template.png (add your own)
+│   ├── template.png
 │   └── generated files (mockup.png, mockup.json)
 ├── php/
 │   └── publisher.php
@@ -74,24 +73,16 @@ Ecom/
 
 ## Sample Outputs
 - `python/generated_image.png`: AI-generated product image
-- `python/product.json`: Product data (title, description, tags)
+- `python/product.json`: Product data (title, description, tags, keywords)
 - `js/mockup.png`: Product mockup image
 - `js/mockup.json`: Mockup metadata
 - `samples/final_product_payload.json`: Final merged product data
 
 ## Notes
-- You can schedule the orchestrator script to run daily using Task Scheduler (Windows) or cron (Linux/Mac).
-- For the mockup, use any transparent PNG as a template (e.g., t-shirt mockup).
 - The PHP endpoint is for demonstration only and does not persist data.
-
-## Optional Bonus
-- Add image captioning or AI-based tag extraction using OpenAI or other models.
+- For the mockup, use any transparent PNG as a template (e.g., t-shirt mockup).
+- The orchestrator can be scheduled for automation.
 
 ---
 
-**Enjoy automating your AI-powered merch pipeline!** 
-=======
-# MerchMaker
->>>>>>> dc9432f3ecaa7e9bad9c3cef62b058ddc2ddbeb8
-
-# OpenAI-Merch
+**Enjoy automating your AI-powered merch pipeline!**
