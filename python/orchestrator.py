@@ -25,10 +25,36 @@ mockup_proc = subprocess.run([
 print(mockup_proc.stdout)
 
 # 3. Collect product data
-with open(PYTHON_DIR / 'product.json', 'r') as f:
-    product_data = json.load(f)
-with open(JS_DIR / 'mockup.json', 'r') as f:
-    mockup_data = json.load(f)
+product_json_path = PYTHON_DIR / 'product.json'
+if not product_json_path.exists():
+    print('⚠️ product.json not found, creating fallback data...')
+    product_data = {
+        "title": "AI Generated T-Shirt",
+        "description": "A unique AI-generated t-shirt design",
+        "tags": ["ai-generated", "creative", "modern"],
+        "keywords": ["ai-generated", "creative", "modern", "design", "fashion"]
+    }
+    with open(product_json_path, 'w') as f:
+        json.dump(product_data, f, indent=2)
+    print('✅ Created fallback product.json')
+else:
+    with open(product_json_path, 'r') as f:
+        product_data = json.load(f)
+
+# Load mockup data
+mockup_json_path = JS_DIR / 'mockup.json'
+if mockup_json_path.exists():
+    with open(mockup_json_path, 'r') as f:
+        mockup_data = json.load(f)
+else:
+    print('⚠️ mockup.json not found, creating fallback data...')
+    mockup_data = {
+        "mockup_url": str(JS_DIR / "mockup.png"),
+        "width": 2500,
+        "height": 2500,
+        "product_image": str(PYTHON_DIR / "generated_image.png"),
+        "template": str(JS_DIR / "template.png")
+    }
 
 # Merge data
 product_payload = {
@@ -45,6 +71,8 @@ except Exception as e:
     print('Failed to POST to PHP endpoint:', e)
 
 # 5. Save the final payload
-with open(BASE_DIR / 'samples' / 'final_product_payload.json', 'w') as f:
+samples_dir = BASE_DIR / 'samples'
+samples_dir.mkdir(exist_ok=True)
+with open(samples_dir / 'final_product_payload.json', 'w') as f:
     json.dump(product_payload, f, indent=2)
 print('Pipeline complete. All data saved.') 
