@@ -1,13 +1,17 @@
 {
-    "title": "Test Shirt",
-    "description": "A test shirt",
+    "title": "AI Generated T-Shirt",
+    "description": "A unique AI-generated t-shirt design",
     "tags": [
-        "test",
-        "shirt"
+        "ai-generated",
+        "creative",
+        "modern"
     ],
     "keywords": [
-        "shirt",
-        "test"
+        "ai-generated",
+        "creative",
+        "modern",
+        "design",
+        "fashion"
     ],
     "mockup": {
         "mockup_url": "D:\\Ecom\\js\\mockup.png",
